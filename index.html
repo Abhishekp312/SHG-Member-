@@ -1,160 +1,238 @@
-<html><head><base href="/login">
-<title>SHG Member Login | Self-Help Group Portal</title>
-<style>
-:root {
-  --primary: #4CAF50;
-  --secondary: #FFA500;
-  --text: #333;
-  --bg: #f9f9f9;
-  --accent: #2196F3;
-  --error: #f44336;
-  --success: #4CAF50;
-}
+# Saving the merged HTML content to a file
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg);
-  color: var(--text);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+merged_html_content = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHG Member Portal</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #FFA500;
+            --text: #333;
+            --bg: #f9f9f9;
+            --accent: #2196F3;
+            --error: #f44336;
+            --success: #4CAF50;
+        }
 
-.login-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-h1 {
-  color: var(--primary);
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
+        .login-container, .register-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            display: none;
+        }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
+        .active {
+            display: block;
+        }
 
-label {
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
 
-input {
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+        }
 
-button {
-  background-color: var(--primary);
-  color: white;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+        label {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
 
-button:hover {
-  background-color: #45a049;
-}
+        input, select {
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
 
-.error-message {
-  color: var(--error);
-  margin-bottom: 1rem;
-  text-align: center;
-}
+        button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.forgot-password {
-  text-align: center;
-  margin-top: 1rem;
-}
+        button:hover {
+            background-color: #45a049;
+        }
 
-.forgot-password a {
-  color: var(--accent);
-  text-decoration: none;
-}
+        .error-message {
+            color: var(--error);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
 
-.register-link {
-  text-align: center;
-  margin-top: 1rem;
-}
+        .forgot-password, .register-link, .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
 
-.register-link a {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: bold;
-}
-
-</style>
+        .forgot-password a, .register-link a, .login-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <div class="login-container">
-    <h1>SHG Member Login</h1>
-    <form id="login-form">
-      <label for="username">Username or Member ID:</label>
-      <input type="text" id="username" name="username" required>
-      
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      
-      <div id="error-message" class="error-message"></div>
-      
-      <button type="submit">Login</button>
-    </form>
-    
-    <div class="forgot-password">
-      <a href="/forgot-password">Forgot Password?</a>
-    </div>
-    
-    <div class="register-link">
-      Not a member? <a href="/register">Register here</a>
-    </div>
-  </div>
 
-  <script>
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const errorMessage = document.getElementById('error-message');
-      
-      // Simple client-side validation
-      if (!username || !password) {
-        errorMessage.textContent = 'Please enter both username and password.';
-        return;
-      }
-      
-      // Simulated login process
-      // In a real application, this would be an API call to your backend
-      if (username === 'demo' && password === 'password') {
-        // Successful login
-        localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('username', username);
-        window.location.href = '/dashboard';
-      } else {
-        // Failed login
-        errorMessage.textContent = 'Invalid username or password. Please try again.';
-      }
-    });
+    <!-- Navigation Links -->
+    <nav>
+        <a href="#" onclick="showPage('login-page')">Login</a> | 
+        <a href="#" onclick="showPage('register-page')">Register</a>
+    </nav>
 
-    // Check if user is already logged in
-    if (localStorage.getItem('loggedIn') === 'true') {
-      window.location.href = '/dashboard';
-    }
-  </script>
+    <!-- Login Page -->
+    <div id="login-page" class="login-container active">
+        <h1>SHG Member Login</h1>
+        <form id="login-form">
+            <label for="username">Username or Member ID:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <div id="error-message" class="error-message"></div>
+            
+            <button type="submit">Login</button>
+        </form>
+        
+        <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+        </div>
+        
+        <div class="register-link">
+            Not a member? <a href="#" onclick="showPage('register-page')">Register here</a>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="register-page" class="register-container">
+        <h1>SHG Member Registration</h1>
+        <form id="register-form">
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required>
+            
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            
+            <label for="group">Self-Help Group:</label>
+            <select id="group" name="group" required>
+                <option value="">Select your SHG</option>
+                <option value="shg1">Mahila Shakti SHG</option>
+                <option value="shg2">Gram Unnati SHG</option>
+                <option value="shg3">Yuva Udyami SHG</option>
+                <option value="shg4">Krishi Vikas SHG</option>
+            </select>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+            
+            <div id="error-message" class="error-message"></div>
+            
+            <button type="submit">Register</button>
+        </form>
+        
+        <div class="login-link">
+            Already a member? <a href="#" onclick="showPage('login-page')">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.getElementById('login-page').classList.remove('active');
+            document.getElementById('register-page').classList.remove('active');
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (!username || !password) {
+                errorMessage.textContent = 'Please enter both username and password.';
+                return;
+            }
+
+            if (username === 'demo' && password === 'password') {
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('username', username);
+                window.location.href = '/dashboard';
+            } else {
+                errorMessage.textContent = 'Invalid username or password. Please try again.';
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fullname = document.getElementById('fullname').value;
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const group = document.getElementById('group').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (!fullname || !username || !email || !phone || !group || !password || !confirmPassword) {
+                errorMessage.textContent = 'Please fill in all fields.';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match.';
+                return;
+            }
+
+            alert('Registration successful! Please check your email for verification instructions.');
+            window.location.href = '/login';
+        });
+    </script>
 </body>
 </html>
+"""
+
+# Save the file
+file_path = "/mnt/data/merged_login_register.html"
+with open(file_path, "w") as file:
+    file.write(merged_html_content)
+
+file_path
